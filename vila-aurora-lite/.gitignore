@@ -1,0 +1,8 @@
+*.key
+*.pem
+*.env
+__pycache__/
+*.db
+*.log
+evidencias/*
+!evidencias/.gitkeep

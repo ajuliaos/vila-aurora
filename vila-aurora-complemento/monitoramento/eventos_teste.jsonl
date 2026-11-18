@@ -1,0 +1,4 @@
+{"kind":"mqtt","message":"OpenSSL tlsv13 alert certificate required","hour":14}
+{"kind":"web","message":"GET /busca?q=' OR 1=1 --","hour":13}
+{"kind":"vpn_login","message":"login aceito","hour":2}
+{"kind":"atuador","message":"comando bomba ON","hour":23}

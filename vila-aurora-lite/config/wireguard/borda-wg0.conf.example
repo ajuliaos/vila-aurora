@@ -1,0 +1,9 @@
+[Interface]
+Address = 10.77.0.2/24
+ListenPort = 51820
+PrivateKey = CHAVE_PRIVADA_LOCAL
+[Peer]
+PublicKey = CHAVE_PUBLICA_NUVEM
+AllowedIPs = 10.77.0.1/32
+Endpoint = 192.168.56.10:51820
+PersistentKeepalive = 25

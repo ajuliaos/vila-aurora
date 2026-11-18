@@ -1,0 +1,10 @@
+*.key
+*.pem
+*.env
+*.db
+*.log
+_pycache_/
+.venv/
+*.vdi
+*.vbox
+*.vbox-prev
