@@ -1,9 +1,8 @@
-"""Laboratório local e isolado. A rota vulnerável só existe se LAB_VULNERAVEL=1."""
+"""Laboratório local isolado; rota vulnerável somente com LAB_VULNERAVEL=1."""
 from flask import Flask,request,jsonify
 import sqlite3,os
-app=Flask(__name__); DB='sqli_lab.db'
-with sqlite3.connect(DB) as c:
- c.execute('CREATE TABLE IF NOT EXISTS pessoas(id INTEGER PRIMARY KEY,nome TEXT)');c.execute("INSERT OR IGNORE INTO pessoas VALUES(1,'Exemplo')")
+app=Flask(__name__);DB='sqli_lab.db'
+with sqlite3.connect(DB) as c:c.execute('CREATE TABLE IF NOT EXISTS pessoas(id INTEGER PRIMARY KEY,nome TEXT)');c.execute("INSERT OR IGNORE INTO pessoas VALUES(1,'Exemplo')")
 @app.get('/seguro')
 def seguro():
  q=request.args.get('nome','')

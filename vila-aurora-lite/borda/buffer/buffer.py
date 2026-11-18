@@ -11,5 +11,5 @@ def connect():
 def gravar(payload):
     eid=str(uuid.uuid4())
     with connect() as c:
-        c.execute("INSERT INTO eventos(id,ts,payload) VALUES(?,?,?)",(eid,datetime.now(timezone.utc).isoformat(),json.dumps(payload)))
+        c.execute("INSERT INTO eventos(id,ts,payload) VALUES(?,?,?)",(eid,datetime.now(timezone.utc).isoformat(),json.dumps(payload,sort_keys=True)))
     return eid

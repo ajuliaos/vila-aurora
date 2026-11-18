@@ -1,2 +1,5 @@
 # Simulação defensiva de phishing
-Não envia mensagens e não coleta credenciais. Use apenas contas fictícias da equipe e consentimento acadêmico. Meça enviados, aberturas, cliques e reportes. Inclua treinamento, checagem fora de banda e procedimento para áudio sintético. Para domínio controlado, documente SPF, DKIM e DMARC; se usar apenas exemplo, identifique como simulação.
+
+Use somente identidades fictícias e consentimento acadêmico. Não capture credenciais. Meça entregues, aberturas, cliques e reportes observados. Inclua verificação fora de banda para pedidos urgentes e voz clonada.
+
+Para domínio controlado: SPF restrito aos remetentes autorizados; DKIM gerado pelo provedor; DMARC iniciando em `p=quarantine`. Registros não publicados devem ser rotulados como exemplo.

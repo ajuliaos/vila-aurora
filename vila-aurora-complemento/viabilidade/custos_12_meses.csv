@@ -1,0 +1,6 @@
+item,categoria,quantidade,custo_unitario_brl,meses_recorrencia,fonte_data,observacao
+Servidor,investimento,,,,,Preencher cotacao
+Internet ou 4G,recorrente,,,,,Preencher cotacao
+Energia,recorrente,,,,,Preencher estimativa
+Backup,recorrente,,,,,Preencher cotacao
+Manutencao,recorrente,,,,,Preencher estimativa

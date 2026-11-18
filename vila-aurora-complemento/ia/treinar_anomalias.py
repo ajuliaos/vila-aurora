@@ -1,14 +1,14 @@
 from pathlib import Path
-import numpy as np,pandas as pd,joblib,json
+import numpy as np,json,csv,joblib
 from sklearn.ensemble import IsolationForest
 from sklearn.metrics import confusion_matrix,precision_score,recall_score
-R=np.random.default_rng(42); n=1000
-normal=pd.DataFrame({'temperatura':R.normal(5,1,n),'latencia_ms':R.normal(100,20,n),'tentativas':R.poisson(1,n),'label':0})
-anom=pd.DataFrame({'temperatura':R.choice([-5,20],50)+R.normal(0,1,50),'latencia_ms':R.normal(800,100,50),'tentativas':R.integers(8,20,50),'label':1})
-df=pd.concat([normal,anom],ignore_index=True).sample(frac=1,random_state=42)
-X=df[['temperatura','latencia_ms','tentativas']]
-model=IsolationForest(contamination=50/1050,random_state=42).fit(X)
-pred=(model.predict(X)==-1).astype(int)
-metrics={'matrix':confusion_matrix(df.label,pred).tolist(),'precision':precision_score(df.label,pred),'recall':recall_score(df.label,pred),'false_positive_rate':float(((pred==1)&(df.label==0)).sum()/(df.label==0).sum())}
-out=Path(__file__).resolve().parent/'saida';out.mkdir(exist_ok=True)
-df.assign(pred=pred).to_csv(out/'avaliacao.csv',index=False);joblib.dump(model,out/'modelo.joblib');(out/'metricas.json').write_text(json.dumps(metrics,indent=2),encoding='utf-8');print(json.dumps(metrics,indent=2))
+rng=np.random.default_rng(2026)
+def normal(n):return np.column_stack((rng.normal(5,1,n),rng.normal(100,20,n),rng.poisson(1,n)))
+def anomaly(n):return np.column_stack((rng.choice([-5,20],n)+rng.normal(0,2,n),rng.normal(700,140,n),rng.integers(7,18,n)))
+train=normal(700);test=np.vstack((normal(300),anomaly(50)));y=np.array([0]*300+[1]*50)
+model=IsolationForest(contamination=.08,random_state=2026).fit(train);pred=(model.predict(test)==-1).astype(int);cm=confusion_matrix(y,pred)
+metrics={'dataset':'synthetic_holdout','train_rows':len(train),'test_rows':len(test),'matrix':cm.tolist(),'precision':float(precision_score(y,pred,zero_division=0)),'recall':float(recall_score(y,pred,zero_division=0)),'false_positive_rate':float(cm[0,1]/sum(cm[0]))}
+out=Path(__file__).resolve().parent/'saida';out.mkdir(exist_ok=True);joblib.dump(model,out/'modelo.joblib');(out/'metricas_holdout.json').write_text(json.dumps(metrics,indent=2),encoding='utf-8')
+with (out/'previsoes_holdout.csv').open('w',newline='',encoding='utf-8') as f:
+ writer=csv.writer(f);writer.writerow(['temperatura','latencia_ms','tentativas','real_anomalia','pred_anomalia']);writer.writerows([*map(float,x),int(a),int(b)] for x,a,b in zip(test,y,pred))
+print(json.dumps(metrics,indent=2))

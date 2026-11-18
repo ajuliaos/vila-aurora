@@ -3,7 +3,10 @@
 *.env
 *.db
 *.log
+*.joblib
 __pycache__/
 .venv/
+ia/saida/
+resposta/tickets.jsonl
 evidencias/*
 !evidencias/.gitkeep

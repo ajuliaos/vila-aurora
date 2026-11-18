@@ -1,19 +1,59 @@
-import json,re,sys
-from datetime import datetime,timezone
-RULES=[
- ('MTLS_SEM_CERT',lambda e:'certificate required' in e.get('message','').lower(),'alto'),
- ('SQLI_PADRAO',lambda e:bool(re.search(r"(?i)(union\s+select|or\s+['\"]?1['\"]?=['\"]?1|sleep\s*\()",e.get('message',''))),'alto'),
- ('VPN_ATIPICA',lambda e:e.get('kind')=='vpn_login' and (e.get('hour',12)<6 or e.get('hour',12)>22),'medio'),
- ('ATUADOR_FORA_HORARIO',lambda e:e.get('kind')=='atuador' and (e.get('hour',12)<6 or e.get('hour',12)>20),'critico')]
+import json
+import re
+import sys
+from datetime import datetime, timezone
+
+RULES = [
+    (
+        "MTLS_SEM_CERT",
+        lambda event: "certificate required" in event.get("message", "").lower(),
+        "alto",
+    ),
+    (
+        "SQLI_PADRAO",
+        lambda event: bool(
+            re.search(
+                r"(?i)(union\s+select|or\s+['\"]?1['\"]?\s*=\s*['\"]?1|sleep\s*\()",
+                event.get("message", ""),
+            )
+        ),
+        "alto",
+    ),
+    (
+        "VPN_ATIPICA",
+        lambda event: event.get("kind") == "vpn_login"
+        and (event.get("hour", 12) < 6 or event.get("hour", 12) > 22),
+        "medio",
+    ),
+    (
+        "ATUADOR_FORA_HORARIO",
+        lambda event: event.get("kind") == "atuador"
+        and (event.get("hour", 12) < 6 or event.get("hour", 12) > 20),
+        "critico",
+    ),
+]
+
 def avaliar(event):
- out=[]
- for nome,test,severidade in RULES:
-  try:
-   if test(event):out.append({'rule':nome,'severity':severidade,'event':event,'detected_at':datetime.now(timezone.utc).isoformat()})
-  except Exception:pass
- return out
-if __name__=='__main__':
- for line in sys.stdin:
-  try:
-   e=json.loads(line);[print(json.dumps(x,ensure_ascii=False)) for x in avaliar(e)]
-  except json.JSONDecodeError:print('linha inválida',file=sys.stderr)
+    alerts = []
+    for name, test, severity in RULES:
+        try:
+            if test(event):
+                alerts.append(
+                    {
+                        "rule": name,
+                        "severity": severity,
+                        "event": event,
+                        "detected_at": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+        except (TypeError, ValueError, KeyError):
+            continue
+    return alerts
+
+if __name__ == "__main__":
+    for line in sys.stdin:
+        try:
+            for item in avaliar(json.loads(line)):
+                print(json.dumps(item, ensure_ascii=False))
+        except json.JSONDecodeError:
+            print("linha inválida", file=sys.stderr)

@@ -1,16 +1,5 @@
-# Vila Aurora - Pacote Complementar Lite
+# Vila Aurora - Pacote complementar melhorado
 
-Complemento do `vila-aurora-lite` para notebook com 8 GB de RAM.
+Inclui painel com variáveis obrigatórias e headers de segurança, RBAC demonstrativo, quatro regras, resposta por tickets, IA com holdout, SQLi isolada, phishing defensivo, forense e viabilidade.
 
-Inclui:
-- painel Flask leve com autenticação local de demonstração e perfis;
-- monitoramento por regras em arquivos JSONL;
-- quatro regras de detecção demonstráveis;
-- laboratório SQLi isolado, desativado por padrão, e versão corrigida;
-- simulação defensiva de phishing sem envio de e-mails e sem coleta de credenciais;
-- IA defensiva com Isolation Forest e dados sintéticos claramente identificados;
-- utilitários forenses SHA-256, manifesto e linha do tempo;
-- modelos acadêmicos E1, E3 e E4;
-- testes automatizados básicos.
-
-Leia `GUIA_IMPLEMENTACAO.md` antes de executar.
+Execute `tests/run_smoke.sh` antes da entrega.

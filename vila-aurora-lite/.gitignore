@@ -1,8 +1,10 @@
 *.key
 *.pem
 *.env
-__pycache__/
 *.db
 *.log
+*.joblib
+__pycache__/
+.venv/
 evidencias/*
 !evidencias/.gitkeep

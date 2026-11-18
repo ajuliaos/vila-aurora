@@ -3,8 +3,13 @@
 *.env
 *.db
 *.log
-_pycache_/
-.venv/
 *.vdi
 *.vbox
 *.vbox-prev
+*.joblib
+__pycache__/
+.venv/
+.pytest_cache/
+**/ia/saida/
+**/evidencias/*
+!**/evidencias/.gitkeep
