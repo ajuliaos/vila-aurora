@@ -14,6 +14,3 @@ Protótipo acadêmico de infraestrutura comunitária resiliente, otimizado para 
 
 ## Segurança
 O repositório não contém chaves privadas, senhas, bancos operacionais nem arquivos `.env`. Copie `.env.example` para `.env` apenas no ambiente local e nunca versione o arquivo real.
-
-## Início rápido
-Leia `vila-aurora-lite/docs/IMPLEMENTACAO_E_TESTES.md` e `vila-aurora-complemento/GUIA_IMPLEMENTACAO.md`.
